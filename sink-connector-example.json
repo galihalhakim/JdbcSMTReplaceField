@@ -1,0 +1,27 @@
+{
+  "name": "jdbc_sink_example",
+  "config": {
+    "connector.class": "io.confluent.connect.jdbc.JdbcSinkConnector",
+    "topics": "NAMA_TOPIC",
+    "connection.url": "jdbc:oracle:thin:@//host:1521/SERVICE",
+    "connection.user": "user",
+    "connection.password": "password",
+    "insert.mode": "upsert",
+    "pk.mode": "record_key",
+    "pk.fields": "MID,QR_KND_CD,QR_COND_CD,START_DT,MB_NO",
+    "auto.create": "false",
+
+    "transforms": "nullToDefaultKey,replaceMbKey,nullToDefault,replaceVal",
+    "transforms.nullToDefaultKey.type": "com.company.kafka.connect.smt.ReplaceNullWithValue$Key",
+    "transforms.nullToDefaultKey.replacements": "MB_NO:####",
+
+    "transforms.replaceMbKey.type": "com.company.kafka.connect.smt.ReplaceValue$Key",
+    "transforms.replaceMbKey.replacements": "MB_NO:###=>####",
+
+    "transforms.nullToDefault.type": "com.company.kafka.connect.smt.ReplaceNullWithValue$Value",
+    "transforms.nullToDefault.replacements": "REQ_DATE:-,RECEIVED_DATE:-",
+
+    "transforms.replaceVal.type": "com.company.kafka.connect.smt.ReplaceValue$Value",
+    "transforms.replaceVal.replacements": "QR_VAL1:N/A=>-"
+  }
+}
