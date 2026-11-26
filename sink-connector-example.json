@@ -11,7 +11,13 @@
     "pk.fields": "MID,QR_KND_CD,QR_COND_CD,START_DT,MB_NO",
     "auto.create": "false",
 
-    "transforms": "nullToDefaultKey,replaceMbKey,nullToDefault,replaceVal",
+    "transforms": "dropMb,nullToDefaultKey,replaceMbKey,nullToDefault,replaceVal",
+
+    "transforms.dropMb.type": "com.company.kafka.connect.smt.FilterRecord$Key",
+    "transforms.dropMb.field": "MB_NO",
+    "transforms.dropMb.values": "822,503,564",
+    "transforms.dropMb.action": "drop",
+
     "transforms.nullToDefaultKey.type": "com.company.kafka.connect.smt.ReplaceNullWithValue$Key",
     "transforms.nullToDefaultKey.replacements": "MB_NO:####",
 
